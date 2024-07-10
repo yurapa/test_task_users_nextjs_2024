@@ -3,39 +3,37 @@ import { useRouter } from 'next/navigation';
 import { apiService } from '@/services/api';
 import FormDefault from '@/components/FormDefault';
 import Link from 'next/link';
-import {setCookie} from "@/utils/setCookie";
+import { setCookie } from '@/utils/setCookie';
+import { toast } from 'react-toastify';
 
 export default function Registration() {
-  const [error, setError] = useState('');
   const router = useRouter();
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
 
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
     if (!email || !password) {
-      setError('Please fill in all fields');
+      toast.error('Please fill in all fields');
       return;
     }
 
     try {
       const response = await apiService.signUp(email, password);
-      console.log('Registration successful', response);
+      toast.success('Registration successful');
 
       if (response.status === 200 && response.data.token) {
         localStorage.setItem('token', response.data.token);
         setCookie('isAuthenticated', '1', 7);
         router.push('/login');
       } else {
-        setError('Registration failed');
+        toast.error('Registration failed');
       }
     } catch (err) {
-      setError('Failed to register');
-      console.error(err);
+      toast.error(`Failed to register: ${err}`);
     }
   };
 
@@ -51,8 +49,6 @@ export default function Registration() {
           </div>
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <FormDefault submitTitle="Register" onSubmit={handleRegister} />
-            {error && <p className="text-center text-red-600">{error}</p>}
-
             <p className="mt-10 text-center text-sm text-gray-500">
               Not a member?{' '}
               <Link href={'/register'} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">

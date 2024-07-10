@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { User as UserType } from '../types/user';
 import Link from 'next/link';
 import { apiService } from '@/services/api';
+import { toast } from 'react-toastify';
 
 export default function UsersList() {
   const [users, setUsers] = useState<UserType[]>([]);
-  const [error, setError] = useState('');
 
   const fetchUsers = async () => {
     let fetchedData = null;
@@ -16,8 +16,7 @@ export default function UsersList() {
       const response = await apiService.fetchUsers();
       fetchedData = response.data;
     } catch (err) {
-      error = 'Failed to fetch users';
-      console.error(err);
+      toast.error(`Failed to fetch users: ${err}`);
     }
     return { fetchedData, error };
   };
@@ -25,10 +24,10 @@ export default function UsersList() {
   const updateUsers = async () => {
     const { fetchedData, error } = await fetchUsers();
     if (error) {
-      setError(error);
+      toast.error(`Failed: ${error}`);
     } else {
       setUsers(fetchedData.data);
-      console.log('Fetch users successful', fetchedData);
+      toast.success('Fetch users successful');
     }
   };
 
@@ -41,13 +40,12 @@ export default function UsersList() {
       if (typeof userId === 'number') {
         await apiService.deleteUser(userId);
         setUsers(users.filter((user) => user.id !== userId));
-        console.log(`User with ID ${userId} removed successfully.`);
+        toast.info(`User with ID ${userId} removed successfully.`);
       } else {
-        console.error('User ID is undefined.');
+        toast.error('User ID is undefined.');
       }
     } catch (error) {
-      console.error(`Failed to remove user with ID ${userId}.`, error);
-      setError(`Failed to remove user with ID ${userId}.`);
+      toast.error(`Failed to remove user with ID ${userId}. ${error}`);
     }
   };
 

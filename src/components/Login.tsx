@@ -3,41 +3,39 @@
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { toast } from "react-toastify";
 import { apiService } from '@/services/api';
 import { setCookie } from '@/utils/setCookie';
 import FormDefault from '@/components/FormDefault';
 
 export default function Login() {
-  const [error, setError] = useState('');
   const router = useRouter();
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
 
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
     if (!email || !password) {
-      setError('Please fill in all fields');
+      toast.error('Please fill in all fields');
       return;
     }
 
     try {
       const response = await apiService.login(email, password);
-      console.log('Login successful', response);
+      toast.success('Login successful');
 
       if (response.status === 200 && response.data.token) {
           localStorage.setItem('token', response.data.token);
           setCookie('isAuthenticated', '1', 7);
           router.push('/users');
       } else {
-        setError('No token received');
+        toast.error('No token received');
       }
     } catch (err) {
-      setError('Failed to login');
-      console.error(err);
+      toast.error(`Failed to login: ${err}`);
     }
   };
 
@@ -51,8 +49,6 @@ export default function Login() {
           </div>
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <FormDefault submitTitle="Login" onSubmit={handleLogin} />
-            {error && <p className="text-center text-red-600">{error}</p>}
-
             <p className="mt-10 text-center text-sm text-gray-500">
               Not a member?{' '}
               <Link href={'/register'} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">

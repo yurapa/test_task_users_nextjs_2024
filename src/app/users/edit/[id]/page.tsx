@@ -4,12 +4,11 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/services/api';
 import Nav from '@/components/Nav';
-import FormUser from "@/components/FormUser"; // Adjust the import path as necessary
+import FormUser from "@/components/FormUser";
+import { toast } from 'react-toastify'; // Adjust the import path as necessary
 
 export default function EditUserPage({ params }: { params: { id: string } }) {
     const router = useRouter();
-
-    console.log('params.id:', params.id);
 
     const handleEditUser = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -22,7 +21,8 @@ export default function EditUserPage({ params }: { params: { id: string } }) {
             await apiService.updateUser(Number(params.id), name, job);
             router.push('/users');
         } catch (error) {
-            console.error('Failed to add user', error);
+            toast.error(`Failed to add user: ${error}`);
+
         }
     };
 

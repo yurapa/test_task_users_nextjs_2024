@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiService } from '@/services/api';
 import Nav from '@/components/Nav';
-import FormUser from "@/components/FormUser"; // Adjust the import path as necessary
+import FormUser from "@/components/FormUser";
+import { toast } from 'react-toastify'; // Adjust the import path as necessary
 
 export default function AddUserPage() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function AddUserPage() {
       await apiService.createUser(name, job);
       router.push('/users');
     } catch (error) {
-      console.error('Failed to add user', error);
+      toast.error(`Failed to add user: ${error}`);
     }
   };
 
