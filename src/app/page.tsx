@@ -1,5 +1,5 @@
 import Nav from '@/components/Nav';
-import MainForm from '@/components/MainForm';
+import Login from '@/components/Login';
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
       <Nav />
       <main>
         <h1 className="mt-20 text-center text-3xl font-bold leading-9 tracking-tight text-gray-300">Welcome!</h1>
-        <MainForm title="Sign in to your account" />
+        <Login />
       </main>
     </>
   );

@@ -2,15 +2,15 @@
 
 import React from 'react';
 import Nav from '@/components/Nav';
-import RegistrationForm from '@/components/RegistrationForm';
+import Registration from '@/components/Registration';
 
 export default function RegisterPage() {
   return (
     <div>
       <Nav />
       <main>
-        <h1>Registration Form:</h1>
-        <RegistrationForm />
+        <h1></h1>
+        <Registration />
       </main>
     </div>
   );
