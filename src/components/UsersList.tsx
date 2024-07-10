@@ -36,11 +36,15 @@ export default function UsersList() {
     updateUsers();
   }, []);
 
-  const handleRemoveUser = async (userId: number) => {
+  const handleRemoveUser = async (userId: number | undefined) => {
     try {
-      await apiService.deleteUser(userId);
-      setUsers(users.filter((user) => user.id !== userId));
-      console.log(`User with ID ${userId} removed successfully.`);
+      if (typeof userId === 'number') {
+        await apiService.deleteUser(userId);
+        setUsers(users.filter((user) => user.id !== userId));
+        console.log(`User with ID ${userId} removed successfully.`);
+      } else {
+        console.error('User ID is undefined.');
+      }
     } catch (error) {
       console.error(`Failed to remove user with ID ${userId}.`, error);
       setError(`Failed to remove user with ID ${userId}.`);
@@ -52,31 +56,31 @@ export default function UsersList() {
       {users.length > 0 ? (
         <ul role="list" className="divide-y divide-gray-500">
           {users.map((user) => (
-            <li key={user.id} className="flex justify-between gap-x-6 py-5">
-              <div className="flex min-w-0 gap-x-4">
-                <Link href={`/users/${user.id}`}>
-                  <img alt="" src={user.avatar} className="h-12 w-12 flex-none rounded-full bg-gray-50" />
-                </Link>
-                <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-100">
-                    <Link href={`/users/${user.id}`}>
-                      {user.first_name} {user.last_name}
-                    </Link>
-                  </p>
-                  <p className="mt-1 truncate text-xs leading-5 text-gray-300">{user.email}</p>
+              <li key={user.id} className="flex justify-between gap-x-6 py-5">
+                <div className="flex min-w-0 gap-x-4">
+                  <Link href={`/users/${user.id}`}>
+                    <img alt="" src={user.avatar} className="h-12 w-12 flex-none rounded-full bg-gray-50"/>
+                  </Link>
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm font-semibold leading-6 text-gray-100">
+                      <Link href={`/users/${user.id}`}>
+                        {user.first_name} {user.last_name}
+                      </Link>
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-300">{user.email}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="sm:flex sm:flex-col sm:items-end">
-                <Link href={`/users/edit/${user.id}`}>Edit</Link>
-              </div>
-              <div className="sm:flex sm:flex-col sm:items-end">
-                <button onClick={() => handleRemoveUser(user.id)}>Delete</button>
-              </div>
-            </li>
+                <div className="sm:flex sm:flex-col sm:items-end">
+                  <Link href={`/users/edit/${user.id}`}>Edit</Link>
+                </div>
+                <div className="sm:flex sm:flex-col sm:items-end">
+                  <button onClick={() => handleRemoveUser(user.id)}>Delete</button>
+                </div>
+              </li>
           ))}
         </ul>
       ) : (
-        <p>No users found.</p>
+          <p>No users found.</p>
       )}
     </div>
   );
