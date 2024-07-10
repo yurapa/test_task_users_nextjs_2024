@@ -1,18 +1,14 @@
 import React from 'react';
-import Nav from "@/components/Nav";
-import LoginForm from "@/components/LoginForm";
+import Nav from '@/components/Nav';
+import MainForm from '@/components/MainForm';
 
 export default function LoginPage() {
-    return (
-        <div>
-            <header>
-                <Nav />
-            </header>
-            <main>
-                <h1>Login Form:</h1>
-                <LoginForm />
-            </main>
-        </div>
-    );
+  return (
+    <div>
+      <Nav />
+      <main>
+        <MainForm title="Sign in to your account" />
+      </main>
+    </div>
+  );
 }
-

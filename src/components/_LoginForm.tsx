@@ -1,14 +1,13 @@
 "use client"
 
-// "email": "eve.holt@reqres.in",
-// "password": "cityslicka"
+// DEPRECATED
 
 import {FormEvent, useState} from 'react';
 import { useRouter } from 'next/navigation'
 import {apiService} from '@/services/api';
 import {setCookie} from "@/utils/setCookie";
 
-export default function LoginForm() {
+export default function _LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
