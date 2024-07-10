@@ -19,7 +19,7 @@ export default function EditUserPage({ params }: { params: { id: string } }) {
         const job = formData.get('job') as string;
 
         try {
-            await apiService.updateUser({ name, job });
+            await apiService.updateUser(Number(params.id), name, job);
             router.push('/users');
         } catch (error) {
             console.error('Failed to add user', error);

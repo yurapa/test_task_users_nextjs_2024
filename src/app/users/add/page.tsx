@@ -17,7 +17,7 @@ export default function AddUserPage() {
     const job = formData.get('job') as string;
 
     try {
-      await apiService.createUser({ name, job });
+      await apiService.createUser(name, job);
       router.push('/users');
     } catch (error) {
       console.error('Failed to add user', error);
