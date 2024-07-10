@@ -15,7 +15,7 @@ export default function Login() {
     e.preventDefault();
     setError('');
 
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 

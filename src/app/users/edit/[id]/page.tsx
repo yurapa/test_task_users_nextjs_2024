@@ -14,7 +14,7 @@ export default function EditUserPage({ params }: { params: { id: string } }) {
     const handleEditUser = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
+        const formData = new FormData(e.currentTarget as HTMLFormElement);
         const name = formData.get('name') as string;
         const job = formData.get('job') as string;
 
