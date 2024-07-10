@@ -5,7 +5,7 @@ import { User as UserType } from '../types/user';
 import Link from 'next/link';
 import { apiService } from '@/services/api';
 
-export default function UsersList() {
+export default function _UsersList() {
   const [users, setUsers] = useState<UserType[]>([]);
   const [error, setError] = useState('');
 
@@ -49,29 +49,38 @@ export default function UsersList() {
 
   return (
     <div>
+      <h1 className="my-12 text-center text-3xl">The list of Users:</h1>
       {users.length > 0 ? (
-        <ul role="list" className="divide-y divide-gray-500">
-          {users.map((user) => (
-            <li key={user.id} className="flex justify-between gap-x-6 py-5">
-              <div className="flex min-w-0 gap-x-4">
-                <Link href={`/users/${user.id}`}>
-                  <img alt="" src={user.avatar} className="h-12 w-12 flex-none rounded-full bg-gray-50" />
-                </Link>
-                <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-100">
-                    <Link href={`/users/${user.id}`}>
-                      {user.first_name} {user.last_name}
-                    </Link>
-                  </p>
-                  <p className="mt-1 truncate text-xs leading-5 text-gray-300">{user.email}</p>
-                </div>
-              </div>
-              <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                <button onClick={() => handleRemoveUser(user.id)}>Delete</button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <table cellPadding={10} cellSpacing={10}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name & Last Name</th>
+              <th>Email</th>
+              <th>Avatar</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id} className="hover:border hover:border-b-fuchsia-600">
+                <td>{user.id}</td>
+                <td>
+                  <Link href={`/users/${user.id}`}>
+                    {user.first_name} {user.last_name}
+                  </Link>
+                </td>
+                <td>{user.email}</td>
+                <td>
+                  <img src={user.avatar} alt={`Avatar of ${user.first_name}`} />
+                </td>
+                <td>
+                  <button onClick={() => handleRemoveUser(user.id)}>Remove</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       ) : (
         <p>No users found.</p>
       )}
