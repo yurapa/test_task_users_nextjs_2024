@@ -1,6 +1,30 @@
+API: https://reqres.in
+
+Used tech stack:
+* Next.js
+* React
+* TypeScript
+* Axios
+* Formik: https://formik.org/docs/overview
+* react-toastify
+* tailwindcss
+
+@TODO:
+- [x] middleware  як у Боді
+- [x] formData simplify 
+- [x] auth form instead default
+- [x] API user model I Auth model
+- [x] Axios Instance with def URL
+- [x] instance Interceptor  request token перевірить
+- [x] TS. Partial<User>
+- [x] setCookie
+- [x] Couldn’t find user написать
+
 Task Description:
 
-Project Overview: Develop a web application using React or Next.js that integrates with the free API provided by Reqres (https://reqres.in/). The project must include the implementation of various pages and functionality as described below.
+Project Overview: 
+Develop a web application using React or Next.js that integrates with the free API provided by Reqres (https://reqres.in/). 
+The project must include the implementation of various pages and functionality as described below.
 
 Task Requirements:
 
@@ -9,7 +33,6 @@ Pages to Create:
 * Sign Up Page
 * User List Page
 * Single User Page
-
 
 Page Logic and API Integration:
 * Implement the necessary logic on each page to interact with the Reqres API.

@@ -1,34 +1,24 @@
-import { FormEvent, useState } from 'react';
+import { AxiosResponse} from 'axios';
 import { useRouter } from 'next/navigation';
-import { apiService } from '@/services/api';
-import FormDefault from '@/components/FormDefault';
 import Link from 'next/link';
-import { setCookie } from '@/utils/setCookie';
 import { toast } from 'react-toastify';
+import { authService } from '@/services/api';
+import { setCookie } from '@/utils/setCookie';
+import FormAuth from '@/components/FormAuth';
+import { Auth, RegistrationResponse } from '@/types/auth';
 
 export default function Registration() {
   const router = useRouter();
 
-  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-
-    if (!email || !password) {
-      toast.error('Please fill in all fields');
-      return;
-    }
-
+  const handleRegister = async (authData: Auth) => {
     try {
-      const response = await apiService.signUp(email, password);
-      toast.success('Registration successful');
+      const response: AxiosResponse<RegistrationResponse> = await authService.signUp(authData);
 
       if (response.status === 200 && response.data.token) {
+        toast.success('Registration successful');
         localStorage.setItem('token', response.data.token);
         setCookie('isAuthenticated', '1', 7);
-        router.push('/login');
+        router.push('/users');
       } else {
         toast.error('Registration failed');
       }
@@ -48,7 +38,7 @@ export default function Registration() {
             </h2>
           </div>
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <FormDefault submitTitle="Register" onSubmit={handleRegister} />
+            <FormAuth submitTitle="Register" handleSubmit={handleRegister} />
             <p className="mt-10 text-center text-sm text-gray-500">
               Not a member?{' '}
               <Link href={'/register'} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">

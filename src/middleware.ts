@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const isAuthenticated = request.cookies.get('isAuthenticated');
-  const publicPaths = ['/', '/login', '/register'];
+  const publicPaths = ['/', '/login', '/register', '/forgot'];
   const path = request.nextUrl.pathname;
 
   if (!isAuthenticated && !publicPaths.includes(path)) {
